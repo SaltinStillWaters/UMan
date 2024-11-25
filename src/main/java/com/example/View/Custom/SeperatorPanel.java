@@ -6,9 +6,9 @@ import java.awt.Dimension;
 import javax.swing.JPanel;
 
 public class SeperatorPanel extends JPanel {
-    public SeperatorPanel(int bgColor, int width, int height) {
+    public SeperatorPanel(Color bgColor, int width, int height) {
         this.setLayout(null);
-        this.setBackground(new Color(bgColor));
+        this.setBackground(bgColor);
         this.setPreferredSize(new Dimension(width, height));
     }
 }

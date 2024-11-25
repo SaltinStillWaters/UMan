@@ -1,4 +1,4 @@
-package com.example.View;
+package com.example.View.Login;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -24,7 +24,7 @@ public class LoginPanel extends JPanel {
 
     public LoginPanel() {
         this.setLayout(new FlowLayout());
-        this.setBackground(new Color(0xedfcff));
+        this.setBackground(Config.frameBG);
 
         //Login text
         JLabel login = new JLabel();
@@ -34,7 +34,7 @@ public class LoginPanel extends JPanel {
         login.setForeground(new Color(0x0e3c5d));
         
         JPanel loginPanel = new JPanel(new BorderLayout());
-        loginPanel.setBackground(new Color(0xedfcff));
+        loginPanel.setBackground(Config.frameBG);
         loginPanel.setPreferredSize(new Dimension(Config.frameDimension.width / 2, 200));
         loginPanel.add(login, BorderLayout.CENTER);
 
@@ -74,12 +74,12 @@ public class LoginPanel extends JPanel {
         
         this.add(loginPanel);
         this.add(emailTextField);
-        this.add(new SeperatorPanel(0xedfcff, Config.frameDimension.width, 10));
+        this.add(new SeperatorPanel(Config.frameBG, Config.frameDimension.width, 10));
         this.add(passwordTextField);
         this.add(rememberMeCheckBox);
-        this.add(new SeperatorPanel(0xedfcff, Config.frameDimension.width / 4 - 20, 0));
+        this.add(new SeperatorPanel(Config.frameBG, Config.frameDimension.width / 4 - 20, 0));
         this.add(registerJLabel);
-        this.add(new SeperatorPanel(0xedfcff, Config.frameDimension.width, 10));
+        this.add(new SeperatorPanel(Config.frameBG, Config.frameDimension.width, 10));
         this.add(submitButton);
         this.setBounds(Config.frameDimension.width / 2, 0, Config.frameDimension.width / 2, Config.frameDimension.height);
     }

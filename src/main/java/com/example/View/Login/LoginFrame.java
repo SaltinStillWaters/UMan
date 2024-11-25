@@ -1,12 +1,13 @@
-package com.example.View;
+package com.example.View.Login;
 
 import javax.swing.JFrame;
 
 import com.example.Model.Config;
+import com.example.View.LogoPanel;
 
-public class MainFrame extends JFrame {
+public class LoginFrame extends JFrame {
 
-    public MainFrame() {
+    public LoginFrame() {
         //Frame config
         this.setTitle("U-Man: User Management Software");
         this.setLayout(null);
