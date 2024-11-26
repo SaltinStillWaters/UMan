@@ -8,20 +8,34 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.font.TextAttribute;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import com.example.Controller.SessionController;
 import com.example.Model.Config;
+import com.example.Model.Session;
 import com.example.View.Custom.Button;
 import com.example.View.Custom.PasswordField;
 import com.example.View.Custom.TextField;
 
-public class InputPanel extends JPanel {
+public class InputPanel extends JPanel implements ActionListener {
+    TextField firstNameText;
+    TextField lastNameText;
+    TextField emailText;
+    TextField ageText;
+    TextField birthdayText;
+    PasswordField passText;
+    PasswordField confirmPassText;
+    Button submitButton;
+
     public InputPanel() {
         this.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 15));
         this.setPreferredSize(new Dimension(Config.frameDimension.width * 3 / 5, Config.frameDimension.height * 7 / 10));
@@ -30,38 +44,38 @@ public class InputPanel extends JPanel {
         int widthBorder = 30;
 
         //First Name
-        TextField firstNameText = new TextField();
+        firstNameText = new TextField();
         firstNameText.setLabelText("First Name");
         firstNameText.setPreferredSize(new Dimension(this.getPreferredSize().width / 2 - widthBorder / 2, firstNameText.getPreferredSize().height));
 
         //Last Name
-        TextField lastNameText = new TextField();
+        lastNameText = new TextField();
         lastNameText.setLabelText("Last Name");
         lastNameText.setPreferredSize(new Dimension(this.getPreferredSize().width / 2 - widthBorder / 2, lastNameText.getPreferredSize().height));
 
         //Email
-        TextField emailText = new TextField();
+        emailText = new TextField();
         emailText.setLabelText("Email");
         emailText.setPreferredSize(new Dimension(this.getPreferredSize().width - widthBorder, lastNameText.getPreferredSize().height));
         
         //age
-        TextField ageText = new TextField();
+        ageText = new TextField();
         ageText.setLabelText("Age");
         ageText.setPreferredSize(new Dimension(this.getPreferredSize().width / 2 - widthBorder / 2, ageText.getPreferredSize().height));
         
         //age
-        TextField birthdayText = new TextField();
+        birthdayText = new TextField();
         birthdayText.setLabelText("Birthday (mm/dd/yyyy)");
         birthdayText.setPreferredSize(new Dimension(this.getPreferredSize().width / 2 - widthBorder / 2, birthdayText.getPreferredSize().height));
         
         //Password
-        PasswordField passText = new PasswordField();
+        passText = new PasswordField();
         passText.setLabelText("Password");
         passText.setPreferredSize(new Dimension(this.getPreferredSize().width - widthBorder, passText.getPreferredSize().height));
         passText.setShowAndHide(true);
 
         //Confirm Password
-        PasswordField confirmPassText = new PasswordField();
+        confirmPassText = new PasswordField();
         confirmPassText.setLabelText("Confirm Password");
         confirmPassText.setPreferredSize(new Dimension(this.getPreferredSize().width - widthBorder, confirmPassText.getPreferredSize().height));
         confirmPassText.setShowAndHide(true);
@@ -79,10 +93,12 @@ public class InputPanel extends JPanel {
         loginText.setFont(loginFont.deriveFont(attributes));
 
         //Submit
-        Button submitButton = new Button();
+        submitButton = new Button();
         submitButton.setText("Submit");
         submitButton.setPreferredSize(new Dimension(100, 60));
         submitButton.setFont(getFont().deriveFont(21f));
+
+        submitButton.addActionListener(this);
 
         
         this.add(firstNameText);
@@ -95,7 +111,25 @@ public class InputPanel extends JPanel {
         this.add(loginText);
         this.add(submitButton);
     }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == submitButton) {
+            JComponent[] components = {firstNameText, lastNameText, emailText, ageText, birthdayText, passText, confirmPassText};
+            SessionController.submitSignupHandler(components);
+        }
+    }
     
+    public void reload() {
+        firstNameText.setText(Session.getSignupVal(0));
+        lastNameText.setText(Session.getSignupVal(1));
+        emailText.setText(Session.getSignupVal(2));
+        ageText.setText(Session.getSignupVal(3));
+        birthdayText.setText(Session.getSignupVal(4));
+        passText.setText(Session.getSignupVal(5));
+        confirmPassText.setText(Session.getSignupVal(6));
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g.create();
