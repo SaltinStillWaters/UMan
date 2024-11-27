@@ -50,8 +50,14 @@ public class Session {
             login.put(loginKeys[x], vals[x]);
             System.out.println(vals[x]);
         }
+
+        Validator.checkCredentials();
     }
     
+    public static void updatePass(String hashedPass) {
+        signup.put("PASSWORD", hashedPass);
+    }
+
     public static void updateSignup(String[] vals) {
         if (signupKeys.length != vals.length) {
             //todo: add exception

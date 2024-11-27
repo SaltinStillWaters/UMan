@@ -23,7 +23,7 @@ public class LoginFrame extends JFrame {
         this.add(new LoginPanel());
 
         //Others
-        this.setVisible(true);
+        this.setVisible(false);
         this.setLocationRelativeTo(null);
     }
     

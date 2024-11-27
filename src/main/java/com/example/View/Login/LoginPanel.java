@@ -8,6 +8,8 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.font.TextAttribute;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,6 +19,7 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import com.example.Controller.FrameNavigator;
 import com.example.Controller.SessionController;
 import com.example.Model.Config;
 import com.example.Model.Session;
@@ -84,7 +87,13 @@ public class LoginPanel extends JPanel implements ActionListener {
         Map<TextAttribute, Object> attributes = new HashMap<>(registerFont.getAttributes());
         attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
         registerJLabel.setFont(registerFont.deriveFont(attributes));
-
+        
+        registerJLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                FrameNavigator.changeFrame("SignupFrame");
+            }
+        });
         
         this.add(loginPanel);
         this.add(emailTextField);

@@ -10,6 +10,8 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.font.TextAttribute;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,6 +21,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import com.example.Controller.FrameNavigator;
 import com.example.Controller.SessionController;
 import com.example.Model.Config;
 import com.example.Model.Session;
@@ -92,6 +95,14 @@ public class InputPanel extends JPanel implements ActionListener {
         attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
         loginText.setFont(loginFont.deriveFont(attributes));
 
+        loginText.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                FrameNavigator.changeFrame("LoginFrame");
+            }
+        });
+
+        
         //Submit
         submitButton = new Button();
         submitButton.setText("Submit");

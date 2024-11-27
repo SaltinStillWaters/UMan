@@ -39,7 +39,7 @@ public class SignupFrame extends JFrame{
 
 
         //Others
-        this.setVisible(true);
+        this.setVisible(false);
         this.setLocationRelativeTo(null);
     }
 }
