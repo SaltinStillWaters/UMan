@@ -3,6 +3,7 @@ package com.example.Model;
 import java.util.HashMap;
 
 import com.example.Controller.Database;
+import com.example.Controller.FrameNavigator;
 
 public class Session {
     private static HashMap<String, String> login = new HashMap<>();
@@ -51,7 +52,9 @@ public class Session {
             System.out.println(vals[x]);
         }
 
-        Validator.checkCredentials();
+        if (Validator.checkCredentials()) {
+            FrameNavigator.goToLoggedInFrame(login.get("EMAIL"));
+        }
     }
     
     public static void updatePass(String hashedPass) {

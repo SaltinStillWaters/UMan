@@ -4,15 +4,17 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import com.example.Model.Config;
-import com.example.View.Custom.SeperatorPanel;
 
-public class SignupFrame extends JFrame{
-    public SignupFrame() {
+public class AdminFrame extends JFrame {
+    private FilledTablePanel filledTablePanel;
+
+    public AdminFrame() {
         //Frame config
         this.setTitle("U-Man: User Management Software");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -33,13 +35,15 @@ public class SignupFrame extends JFrame{
         signUpText.setPreferredSize(new Dimension(Config.frameDimension.width, signUpText.getPreferredSize().height));
 
 
-        this.add(new SeperatorPanel(getForeground(), WIDTH, 20));
-        this.add(signUpText);
-        this.add(new InputPanel());
-
+        filledTablePanel = new FilledTablePanel();
+        this.add(filledTablePanel);
 
         //Others
         this.setVisible(false);
         this.setLocationRelativeTo(null);
+    }
+
+    public void updateFilledTable(ArrayList<ArrayList<String>> rows) {
+        filledTablePanel.update(rows);
     }
 }

@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import com.example.Model.Session;
 
@@ -130,6 +131,38 @@ public class Database {
         return row;
     }
     
+    public static ArrayList<ArrayList<String>> getAllRows() {
+        ArrayList<ArrayList<String>> rows = new ArrayList<>();
+
+        try {
+            //todo: dont get the id
+            String sql =    "SELECT FIRST_NAME, LAST_NAME, EMAIL, AGE, BIRTHDAY, PASSWORD FROM " + TABLE +
+                            " ORDER BY FIRST_NAME ASC";
+            openConnection();
+    
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                ArrayList<String> row = new ArrayList<>();
+                //-1 because CONFIRM_PASSWORD is not needed
+                for (int x = 1; x <= Session.signupKeys.length - 1; ++x) {
+                    row.add(rs.getString(x));
+                }
+                rows.add(row);
+            }
+
+    
+            rs.close();
+            stmt.close();
+            connection.close();
+        } catch (SQLException e) {
+            System.err.println("Error retrieving row from database");
+            return null;
+        }
+
+        return rows;
+    }
 
     public static void insertUser() {
         try {

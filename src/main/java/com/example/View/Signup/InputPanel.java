@@ -1,4 +1,4 @@
-package com.example.View;
+package com.example.View.Signup;
 
 import java.awt.Color;
 import java.awt.Cursor;
