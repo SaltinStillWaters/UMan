@@ -2,12 +2,14 @@ package com.example.Model;
 
 import java.util.HashMap;
 
+import com.example.Controller.Database;
+
 public class Session {
     private static HashMap<String, String> login = new HashMap<>();
     private static HashMap<String, String> signup = new HashMap<>();
 
     public static final String[] loginKeys = {"EMAIL", "PASSWORD", "REMEMBER"};
-    public static final String[] signupKeys = {"FIRST NAME", "LAST NAME", "EMAIL", "AGE", "BIRTHDAY", "PASSWORD", "CONFIRM PASSWORD"};
+    public static final String[] signupKeys = {"FIRST_NAME", "LAST_NAME", "EMAIL", "AGE", "BIRTHDAY", "PASSWORD", "CONFIRM PASSWORD"};
 
     public static void init() {
         for (String key : loginKeys) {
@@ -64,6 +66,9 @@ public class Session {
 
         String errMessage = Validator.validateSignup();
         System.out.println(errMessage + "~no error?~");
+        if (errMessage.isBlank() || errMessage.isEmpty()) {
+            Database.insertUser();
+        }
     }
 
     public void resetLogin() {
