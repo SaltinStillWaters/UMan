@@ -36,11 +36,9 @@ public class FrameNavigator {
         ((SignupFrame) strToFrame.get("SignupFrame")).reload();
 
         switch (email) {
-            case "ADMIN@ADMIN.ADMIN":
+            case "admin@1":
                 changeFrame("AdminFrame");
                 ((AdminFrame) strToFrame.get("AdminFrame")).updateFilledTable(rows);
-                break;
-            case "SUPERADMIN@ADMIN.ADMIN":
                 break;
             default:
                 //normal users

@@ -52,7 +52,7 @@ public class Database {
             String adminPass = Validator.hashPassword("ADMIN");
             String adminSql =   "INSERT IGNORE INTO " + TABLE + "(" +
             "FIRST_NAME, LAST_NAME, EMAIL, AGE, BIRTHDAY, PASSWORD) " +
-            "VALUES('ADMIN', 'ADMIN', 'ADMIN@1', 100, '01/01/2001', '" + adminPass + "');";
+            "VALUES('ADMIN', 'ADMIN', 'admin@1', 100, '01/01/2001', '" + adminPass + "');";
             stmt.executeUpdate(adminSql);
             
             

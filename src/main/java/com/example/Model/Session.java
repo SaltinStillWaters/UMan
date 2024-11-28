@@ -50,7 +50,8 @@ public class Session {
             login.put(loginKeys[x], vals[x]);
             System.out.println(vals[x]);
         }
-        
+        login.put("EMAIL", login.get("EMAIL").toLowerCase());
+
         String validatorResult = Validator.checkCredentials();
         if (validatorResult.isEmpty()) {
             FrameNavigator.goToLoggedInFrame(login.get("EMAIL"));
@@ -79,6 +80,7 @@ public class Session {
         System.out.println("Error message: " + errMessage);
         if (errMessage.isBlank() || errMessage.isEmpty()) {
             System.out.println("No Error!");
+            signup.put("EMAIL", signup.get("EMAIL").toLowerCase());
             Database.insertUser();
             FrameNavigator.goToLoggedInFrame(signup.get("EMAIL"));
         } else {
