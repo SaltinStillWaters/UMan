@@ -22,7 +22,7 @@ public class RoundedBorder implements Border {
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2.setColor(new Color(0xa5e9fc));
         g2.fillRoundRect(x, y, width - 1, height - 1, radius, radius);
-        g2.setColor(new Color(0xa5e9fc)); // Border color
+        g2.setColor(new Color(0xa5e9fc));
         g2.drawRoundRect(x, y, width - 1, height - 1, radius, radius);
     }
 

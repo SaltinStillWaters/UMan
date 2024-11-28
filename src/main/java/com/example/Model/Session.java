@@ -39,8 +39,6 @@ public class Session {
         return signup.get(signupKeys[keyIndex]);
     }
 
-    //todo: add validator()
-
     public static void updateLogin(String[] vals) {
         if (loginKeys.length != vals.length) {
             //todo: add exception
@@ -52,7 +50,7 @@ public class Session {
             login.put(loginKeys[x], vals[x]);
             System.out.println(vals[x]);
         }
-
+        
         String validatorResult = Validator.checkCredentials();
         if (validatorResult.isEmpty()) {
             FrameNavigator.goToLoggedInFrame(login.get("EMAIL"));
@@ -78,12 +76,13 @@ public class Session {
         }
 
         String errMessage = Validator.validateSignup();
-        System.out.println(errMessage + "~no error?~");
+        System.out.println("Error message: " + errMessage);
         if (errMessage.isBlank() || errMessage.isEmpty()) {
+            System.out.println("No Error!");
             Database.insertUser();
             FrameNavigator.goToLoggedInFrame(signup.get("EMAIL"));
         } else {
-            System.out.println("Err msg");
+            System.out.println("Error!");
             Toast.showToast(errMessage, 2000);
         }
     }

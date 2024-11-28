@@ -11,59 +11,38 @@ import de.mkammerer.argon2.Argon2Factory;
 
 public class Validator {
     public static String validateSignup() {
-        String errMessage = "";
-
         for (String key : Session.signupKeys) {
             String val = Session.getSignupVal(key);
 
-            //checks for all
-            if (isNull(val)) {
-                errMessage = key + " cannot be empty!";
-                break;
-            } else if (isTooLong(val, 50)) {
-                errMessage = key + " is too long!";
-                break;
-            }
+            try {
+                isNull(key, val);
+                isTooLong(key, val, 50);
 
-
-            //specific checks
-            if (key.equals("BIRTHDAY") && isNotDate(val, "MM/dd/yyyy")) {
-                errMessage = key + " is not a valid date (mm/dd/yyyy)!";
-                break;
-            } else if (key.equals("EMAIL") && isNotEmail(val)) {
-                errMessage = key + " is not a valid email!";
-                break;
-            } else if (key.equals("AGE") && isNotNum(val)) {
-                errMessage = key + " is not a number!";
-                break;
-            } else if (key.equals("AGE") && isNotBetween(val, 18, 100)) {
-                errMessage = key + " is not an acceptable age (18 - 100)!";
-                break;
-            } else if (key.equals("PASSWORD") && isNotPassword(val)) {
-                errMessage = key + " is insecure. Must have: at least 6 chars, an uppercase and lowercase letter, a digit, and a special character!";
-                break;
+                if (key.equals("BIRTHDAY")) {
+                    isNotDate(val, "MM/dd/yyyy");
+                } else if (key.equals("EMAIL")) {
+                    isNotEmail(val);
+                    emailNotUnique(Session.getSignupVal("EMAIL"), 2);
+                } else if (key.equals("AGE")) {
+                    isNotNum(key, val);
+                    isNotBetween(key, val, 18, 100);
+                } else if (key.equals("PASSWORD")) {
+                    isNotPassword(val);
+                }
+            } catch (InvalidInputException e) {
+                return e.getMessage();
             }
-            
-            
         }
-        
-        //early return to not do other checks
-        if (!errMessage.isEmpty()) { return errMessage; }
-        
+
         //other checks
         if (!Session.getSignupVal("PASSWORD").equals(Session.getSignupVal("CONFIRM PASSWORD"))) {
-            errMessage = "PASSWORDS do not match!";
-        } else if (emailNotUnique(Session.getSignupVal("EMAIL"), 2)) {
-            errMessage = "EMAIL already taken!";
+            return "PASSWORDS do not match!";
         }
 
-        //to do if all input is valid
-        if (errMessage.isEmpty() || errMessage.isBlank()) {
-            String newPass = hashPassword(Session.getSignupVal("PASSWORD"));
-            Session.updatePass(newPass);
-        }
+        String newPass = hashPassword(Session.getSignupVal("PASSWORD"));
+        Session.updatePass(newPass);
         
-        return errMessage;
+        return "";
     }
 
     public static String checkCredentials() {
@@ -101,84 +80,69 @@ public class Validator {
         }
     }
 
-    public static boolean emailNotUnique(String val, int colIndex) {
-        return Database.checkRowExists(val, colIndex);
-    }
-
-    // no need to validate login. just check if user matches. remove later
-    public static String validateLogin() {
-        String errMessage = "";
-
-        for (String key : Session.loginKeys) {
-            if (key.equals(Session.loginKeys[Session.loginKeys.length - 1])) {
-                break;
-            }
-
-            String val = Session.getLoginVal(key);
-
-            if (isNull(val)) {
-                errMessage = key + " cannot be empty!";
-                break;
-            } else if (isTooLong(val, 50)) {
-                errMessage = key + " is too long!";
-                break;
-            }
+    public static void emailNotUnique(String val, int colIndex) throws InvalidInputException {
+        if (Database.checkRowExists(val, colIndex)) {
+            throw new InvalidInputException("EMAIL already taken!");
         }
-
-        
-        return errMessage;
     }
-
     
-    public static boolean isNull(String val) {
-        return val.isBlank() || val.isEmpty();
+    public static void isNull(String key, String val) throws InvalidInputException {
+        if (val.isBlank() || val.isEmpty()) {
+            throw new InvalidInputException(key + " cannot be empty!");
+        }
     }
 
-    public static boolean isTooLong(String val, int max) {
-        return val.length() > max;
+    public static void isTooLong(String key, String val, int max) throws InvalidInputException {
+        if (val.length() > max) {
+            throw new InvalidInputException(key + " is too long!");
+        }
     }
 
-    public static boolean isNotPassword(String val) {
+    public static void isNotPassword(String val) throws InvalidInputException {
         String passRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{6,}$";
         Pattern pattern = Pattern.compile(passRegex);
-        return !pattern.matcher(val).matches();
+        if (!pattern.matcher(val).matches()) {
+            throw new InvalidInputException("PASSWORD must have: at least 6 chars, an uppercase and lowercase letter, a digit, and a special character!\"");
+        }
     }
 
-    public static boolean isNotEmail(String val) {
+    public static void isNotEmail(String val) throws InvalidInputException {
         Pattern pattern = Pattern.compile(EMAIL_REGEX);
-        return !pattern.matcher(val).matches();
+        if (!pattern.matcher(val).matches()) {
+            throw new InvalidInputException("Email is not a valid email!");
+        }
     }
 
-    public static boolean isNotDate(String val, String format) {
+    public static void isNotDate(String val, String format) throws InvalidInputException {
         SimpleDateFormat dateFormat = new SimpleDateFormat(format);
         dateFormat.setLenient(false);
 
         try {
             dateFormat.parse(val);
-            return false;
         } catch (ParseException e) {
-            return true;
+            throw new InvalidInputException("DATE is not a valid date (mm/dd/yyyy)!");
         }
     }
 
-    public static boolean isNotNum(String val) {
+    public static void isNotNum(String key, String val) throws InvalidInputException {
         try {
             Integer.valueOf(val);
-            return false;
         } catch (NumberFormatException e) {
-            return true;
+            throw new InvalidInputException(key + " is not a number!");
         }
     }
 
-    public static boolean isNotBetween(String val, int min, int max) {
+    public static void isNotBetween(String key, String val, int min, int max) throws InvalidInputException {
         int num;
         try {
             num = Integer.parseInt(val);
         } catch (NumberFormatException e) {
-            return true;
+            throw new InvalidInputException(key + " is not a number!");
         }
 
-        return !(num >= min && num <= max);
+        if (!(num >= min && num <= max)) {
+            throw new InvalidInputException(key + " must be between " + min + " and " + max + "!");
+        }
     }
 
     //taken from: https://pdw.ex-parrot.com/Mail-RFC822-Address.html

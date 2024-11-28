@@ -9,6 +9,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import com.example.Model.Session;
+import com.example.Model.Validator;
 
 public class Database {
     private static final String URL = "jdbc:mysql://localhost:3306/";
@@ -48,10 +49,10 @@ public class Database {
                                 "PASSWORD VARCHAR(128))";
             stmt.executeUpdate(tableSql);
             
-
+            String adminPass = Validator.hashPassword("ADMIN");
             String adminSql =   "INSERT IGNORE INTO " + TABLE + "(" +
             "FIRST_NAME, LAST_NAME, EMAIL, AGE, BIRTHDAY, PASSWORD) " +
-            "VALUES('ADMIN', 'ADMIN', 'ADMIN.ADMIN@ADMIN', 100, '01/01/2001', 'ADMIN');";
+            "VALUES('ADMIN', 'ADMIN', 'ADMIN@1', 100, '01/01/2001', '" + adminPass + "');";
             stmt.executeUpdate(adminSql);
             
             

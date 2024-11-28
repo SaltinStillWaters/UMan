@@ -6,9 +6,10 @@ import java.util.HashMap;
 import javax.swing.JFrame;
 
 import com.example.Model.Session;
-import com.example.View.AdminFrame;
+import com.example.View.Admin.AdminFrame;
 import com.example.View.Login.LoginFrame;
 import com.example.View.Signup.SignupFrame;
+import com.example.View.UserViewFrame;
 
 public class FrameNavigator {
     private static HashMap<String, JFrame> strToFrame = new HashMap<>();
@@ -30,18 +31,22 @@ public class FrameNavigator {
             System.out.println();
         }
 
-        changeFrame("AdminFrame");
-        ((AdminFrame) strToFrame.get("AdminFrame")).updateFilledTable(rows);
+        
         Session.resetSignup();
         ((SignupFrame) strToFrame.get("SignupFrame")).reload();
 
         switch (email) {
             case "ADMIN@ADMIN.ADMIN":
+                changeFrame("AdminFrame");
+                ((AdminFrame) strToFrame.get("AdminFrame")).updateFilledTable(rows);
                 break;
             case "SUPERADMIN@ADMIN.ADMIN":
                 break;
             default:
                 //normal users
+                changeFrame("UserViewFrame");
+                ((UserViewFrame) strToFrame.get("UserViewFrame")).reload(email);
+                break;
         }
     }
 

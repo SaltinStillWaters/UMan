@@ -61,14 +61,15 @@ public class Button extends JButton {
     protected void paintComponent(Graphics grphcs) {
         Graphics2D g2 = (Graphics2D) grphcs.create();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
         double width = getWidth() - (shadowSize.left + shadowSize.right);
         double height = getHeight() - (shadowSize.top + shadowSize.bottom);
         double x = shadowSize.left;
         double y = shadowSize.top;
-        //  Create Shadow Image
+
         g2.drawImage(imageShadow, 0, 0, null);
-        //  Create Background Color
         g2.setColor(getBackground());
+
         Area area = new Area(new RoundRectangle2D.Double(x, y, width, height, round, round));
         g2.fill(area);
         rippleEffect.reder(grphcs, area);
@@ -89,6 +90,7 @@ public class Button extends JButton {
             imageShadow = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
             Graphics2D g2 = imageShadow.createGraphics();
             BufferedImage img = createShadow();
+            
             if (img != null) {
                 g2.drawImage(createShadow(), 0, 0, null);
             }
@@ -99,6 +101,7 @@ public class Button extends JButton {
     private BufferedImage createShadow() {
         int width = getWidth() - (shadowSize.left + shadowSize.right);
         int height = getHeight() - (shadowSize.top + shadowSize.bottom);
+
         if (width > 0 && height > 0) {
             BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
             Graphics2D g2 = img.createGraphics();

@@ -1,4 +1,4 @@
-package com.example.View;
+package com.example.View.Admin;
 
 import java.awt.Color;
 import java.awt.Cursor;
@@ -18,6 +18,7 @@ import javax.swing.SwingConstants;
 
 import com.example.Controller.FrameNavigator;
 import com.example.Model.Config;
+import com.example.View.FilledTablePanel;
 
 public class AdminFrame extends JFrame {
     private FilledTablePanel filledTablePanel;

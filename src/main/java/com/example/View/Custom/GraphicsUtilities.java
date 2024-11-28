@@ -20,7 +20,6 @@ public class GraphicsUtilities {
     private GraphicsUtilities() {
     }
 
-    // Returns the graphics configuration for the primary screen
     private static GraphicsConfiguration getGraphicsConfiguration() {
         return GraphicsEnvironment.getLocalGraphicsEnvironment().
                 getDefaultScreenDevice().getDefaultConfiguration();
@@ -252,7 +251,6 @@ public class GraphicsUtilities {
             WritableRaster raster = img.getRaster();
             raster.setDataElements(x, y, w, h, pixels);
         } else {
-            // Unmanages the image
             img.setRGB(x, y, w, h, pixels, 0, w);
         }
     }
