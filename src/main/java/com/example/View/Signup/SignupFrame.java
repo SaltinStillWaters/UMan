@@ -12,6 +12,8 @@ import com.example.Model.Config;
 import com.example.View.Custom.SeperatorPanel;
 
 public class SignupFrame extends JFrame{
+    private InputPanel inputPanel;
+
     public SignupFrame() {
         //Frame config
         this.setTitle("U-Man: User Management Software");
@@ -32,14 +34,19 @@ public class SignupFrame extends JFrame{
         signUpText.setForeground(new Color(0x0e3c5d));
         signUpText.setPreferredSize(new Dimension(Config.frameDimension.width, signUpText.getPreferredSize().height));
 
+        inputPanel = new InputPanel();
 
         this.add(new SeperatorPanel(getForeground(), WIDTH, 20));
         this.add(signUpText);
-        this.add(new InputPanel());
+        this.add(inputPanel);
 
 
         //Others
         this.setVisible(false);
         this.setLocationRelativeTo(null);
+    }
+
+    public void reload() {
+        inputPanel.reload();
     }
 }

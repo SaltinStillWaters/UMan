@@ -5,7 +5,10 @@ import java.util.HashMap;
 
 import javax.swing.JFrame;
 
+import com.example.Model.Session;
 import com.example.View.AdminFrame;
+import com.example.View.Login.LoginFrame;
+import com.example.View.Signup.SignupFrame;
 
 public class FrameNavigator {
     private static HashMap<String, JFrame> strToFrame = new HashMap<>();
@@ -29,7 +32,9 @@ public class FrameNavigator {
 
         changeFrame("AdminFrame");
         ((AdminFrame) strToFrame.get("AdminFrame")).updateFilledTable(rows);
-        
+        Session.resetSignup();
+        ((SignupFrame) strToFrame.get("SignupFrame")).reload();
+
         switch (email) {
             case "ADMIN@ADMIN.ADMIN":
                 break;
@@ -40,6 +45,16 @@ public class FrameNavigator {
         }
     }
 
+    public static void logout() {
+        System.out.println("isEmpty: " + Session.getLoginVal(Session.loginKeys.length - 1).isEmpty());
+        if (Session.getLoginVal(Session.loginKeys.length - 1).isEmpty()) {
+            Session.resetLogin();
+            ((LoginFrame) strToFrame.get("LoginFrame")).reload();
+        }
+
+        changeFrame("LoginFrame");
+    }
+
     public static void add(String name, JFrame frame) {
         strToFrame.put(name, frame);
     }
@@ -47,5 +62,6 @@ public class FrameNavigator {
     public static void changeFrame(String name) {
         strToFrame.get(currFrameName).setVisible(false);
         strToFrame.get(name).setVisible(true);
+        currFrameName = name;
     }
 }

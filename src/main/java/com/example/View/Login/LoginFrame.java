@@ -6,6 +6,7 @@ import com.example.Model.Config;
 import com.example.View.LogoPanel;
 
 public class LoginFrame extends JFrame {
+    LoginPanel loginPanel;
 
     public LoginFrame() {
         //Frame config
@@ -18,13 +19,18 @@ public class LoginFrame extends JFrame {
         this.getContentPane().setBackground(Config.frameBG);
         this.setIconImage(Config.logo.getImage());
 
+        loginPanel = new LoginPanel();
+
         //Components
         this.add(new LogoPanel());  
-        this.add(new LoginPanel());
+        this.add(loginPanel);
 
         //Others
         this.setVisible(false);
         this.setLocationRelativeTo(null);
     }
     
+    public void reload() {
+        loginPanel.reload();
+    }
 }

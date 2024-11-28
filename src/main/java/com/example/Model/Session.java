@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import com.example.Controller.Database;
 import com.example.Controller.FrameNavigator;
+import com.example.View.Custom.Toast;
 
 public class Session {
     private static HashMap<String, String> login = new HashMap<>();
@@ -52,8 +53,11 @@ public class Session {
             System.out.println(vals[x]);
         }
 
-        if (Validator.checkCredentials()) {
+        String validatorResult = Validator.checkCredentials();
+        if (validatorResult.isEmpty()) {
             FrameNavigator.goToLoggedInFrame(login.get("EMAIL"));
+        } else {
+            Toast.showToast(validatorResult, 2000);
         }
     }
     
@@ -77,16 +81,20 @@ public class Session {
         System.out.println(errMessage + "~no error?~");
         if (errMessage.isBlank() || errMessage.isEmpty()) {
             Database.insertUser();
+            FrameNavigator.goToLoggedInFrame(signup.get("EMAIL"));
+        } else {
+            System.out.println("Err msg");
+            Toast.showToast(errMessage, 2000);
         }
     }
 
-    public void resetLogin() {
+    public static void resetLogin() {
         for (String key : loginKeys) {
             login.put(key, "");
         }
     }
 
-    public void resetSignup() {
+    public static void resetSignup() {
         for (String key : signupKeys) {
             signup.put(key, "");
         }

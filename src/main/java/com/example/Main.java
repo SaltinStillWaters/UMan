@@ -13,7 +13,7 @@ public class Main {
         Session.init();
         
         System.setProperty("sun.java2d.uiScale", "1.0");
-    
+        
         FrameNavigator.init("LoginFrame", new LoginFrame());
         FrameNavigator.add("SignupFrame", new SignupFrame());
         FrameNavigator.add("AdminFrame", new AdminFrame());

@@ -66,24 +66,25 @@ public class Validator {
         return errMessage;
     }
 
-    public static boolean checkCredentials() {
+    public static String checkCredentials() {
+
         String dbPass = Database.getRow(Session.getLoginVal("EMAIL"), 2);
 
         if (dbPass == null ) { 
-            System.out.println("Email not found");
-            return false; 
+            System.out.println("User does not exist");
+            return "User does not exist";
         }
 
         Argon2 argon2 = Argon2Factory.create();
 
         if (argon2.verify(dbPass, Session.getLoginVal("PASSWORD").toCharArray())) {
             System.out.println("Hash matches password.");
-            return true;
         } else {
             System.out.println("Hash does not match");
-            return false;
+            return "Email and Password does not match";
         }
 
+        return "";
     }
 
     public static String hashPassword(String pass) {
