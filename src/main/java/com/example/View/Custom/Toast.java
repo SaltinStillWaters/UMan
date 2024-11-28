@@ -25,14 +25,15 @@ public class Toast extends JDialog {
         setLayout(new GridBagLayout());
         setBackground(new Color(0, 0, 0, 0));
 
-        setShape(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 100, 100));
-
+        
         label = new JLabel(message);
         label.setOpaque(true);
         label.setBackground(new Color(244, 63, 81, 200));
         label.setForeground(Color.WHITE);
         label.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
         label.setFont(new Font("Arial", Font.BOLD, 14));
+        
+        setShape(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 100, 100));
         
         add(label);
         pack();
